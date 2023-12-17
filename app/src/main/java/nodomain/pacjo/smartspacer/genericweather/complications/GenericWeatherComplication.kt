@@ -14,6 +14,7 @@ import com.kieronquinn.app.smartspacer.sdk.utils.ComplicationTemplate
 import nodomain.pacjo.smartspacer.genericweather.R
 import nodomain.pacjo.smartspacer.genericweather.ui.activities.ComplicationConfigurationActivity
 import nodomain.pacjo.smartspacer.genericweather.utils.WeatherData
+import nodomain.pacjo.smartspacer.genericweather.utils.isFirstRun
 import nodomain.pacjo.smartspacer.genericweather.utils.temperatureUnitConverter
 import nodomain.pacjo.smartspacer.genericweather.utils.weatherDataToIcon
 import org.json.JSONObject

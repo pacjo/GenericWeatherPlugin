@@ -1,0 +1,10 @@
+{
+  "preferences": {
+    "target_unit": "Celsius",
+    "target_style": "Temperature and condition",
+    "target_point_visible": 4,
+    "complication_unit": "Celsius",
+    "complication_style": "Temperature only"
+  },
+  "weather": {}
+}
