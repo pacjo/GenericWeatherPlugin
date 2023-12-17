@@ -16,7 +16,6 @@ import nodomain.pacjo.smartspacer.genericweather.ui.theme.getColorScheme
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceMenu
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceSlider
 import nodomain.pacjo.smartspacer.genericweather.utils.SettingsTopBar
-import nodomain.pacjo.smartspacer.genericweather.utils.getColorScheme
 import nodomain.pacjo.smartspacer.genericweather.utils.savePreference
 import org.json.JSONObject
 import java.io.File
