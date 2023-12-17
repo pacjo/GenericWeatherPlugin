@@ -1,4 +1,4 @@
-package nodomain.pacjo.smartspacer.genericweather.utils
+package nodomain.pacjo.smartspacer.genericweather.utils     // TODO: rename to ConfigurationComponents
 
 import android.content.Context
 import android.graphics.drawable.Icon
@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +25,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -32,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -150,6 +155,76 @@ fun PreferenceMenu(icon: Int, title: String, subtitle: String, stateCallback: (v
         }
     }
 }
+
+@Composable
+fun PreferenceInput(icon: Int, title: String, subtitle: String, stateCallback: (value: String) -> Unit, dialogText: String, defaultText: String) {
+    val textState = remember { mutableStateOf(defaultText) }
+    var isShown by remember { mutableStateOf(false) }
+
+    Surface(
+        onClick = {
+            isShown = true
+        }
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            PreferenceContainer(
+                icon,
+                title,
+                subtitle
+            )
+        }
+    }
+
+    if (isShown) {
+        AlertDialog(
+            onDismissRequest = {
+                isShown = false
+            },
+            title = { Text(dialogText) },
+            text = {
+                TextField(
+                    value = textState.value,
+                    onValueChange = {
+                        textState.value = it
+                    }
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        isShown = false
+                        stateCallback(textState.value)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        isShown = false
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+}
+
+
 @Composable
 fun PreferenceSlider(icon: Int, title: String, subtitle: String, stateCallback: (value: Int) -> Unit, range: IntRange, defaultPosition: Float = 4f) {
     var sliderPosition by remember { mutableFloatStateOf(defaultPosition) }

@@ -9,10 +9,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerComplicationProvider
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerTargetProvider
 import nodomain.pacjo.smartspacer.genericweather.R
+import nodomain.pacjo.smartspacer.genericweather.complications.GenericWeatherComplication
 import nodomain.pacjo.smartspacer.genericweather.targets.GenericWeatherTarget
 import nodomain.pacjo.smartspacer.genericweather.ui.theme.getColorScheme
+import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceInput
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceMenu
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceSlider
 import nodomain.pacjo.smartspacer.genericweather.utils.SettingsTopBar
@@ -33,6 +36,7 @@ class TargetConfigurationActivity : ComponentActivity() {
             val jsonObject = JSONObject(file.readText())
             val preferences = jsonObject.getJSONObject("preferences")
             val dataPoints = preferences.optInt("target_point_visible", 4)
+            val launchPackage = preferences.optString("target_launch_package", "")
 
             MaterialTheme (
                 // Change default colorScheme to our dynamic one
@@ -98,6 +102,18 @@ class TargetConfigurationActivity : ComponentActivity() {
                                 "Celsius",
                                 "Fahrenheit"
                             )
+                        )
+
+                        PreferenceInput(
+                            icon = R.drawable.baseline_error_24,
+                            title = "Launch Package",
+                            subtitle = "Select package name of an app to open when complication is clicked",
+                            stateCallback = {
+                                value -> savePreference(context,"target_launch_package", value)
+                                SmartspacerComplicationProvider.notifyChange(context, GenericWeatherComplication::class.java)
+                            },
+                            dialogText = "Enter package name",
+                            defaultText = launchPackage
                         )
                     }
                 }

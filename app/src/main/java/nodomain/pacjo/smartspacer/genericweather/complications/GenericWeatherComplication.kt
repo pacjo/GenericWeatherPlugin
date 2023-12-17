@@ -9,6 +9,7 @@ import androidx.core.graphics.drawable.IconCompat
 import com.google.gson.Gson
 import com.kieronquinn.app.smartspacer.sdk.annotations.DisablingTrim
 import com.kieronquinn.app.smartspacer.sdk.model.SmartspaceAction
+import com.kieronquinn.app.smartspacer.sdk.model.uitemplatedata.TapAction
 import com.kieronquinn.app.smartspacer.sdk.model.uitemplatedata.Text
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerComplicationProvider
 import com.kieronquinn.app.smartspacer.sdk.utils.ComplicationTemplate
@@ -26,7 +27,6 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
 
     @OptIn(DisablingTrim::class)
     override fun getSmartspaceActions(smartspacerId: String): List<SmartspaceAction> {
-
         val file = File(context?.filesDir, "data.json")
 
         isFirstRun(context!!)
@@ -38,6 +38,7 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
         val complicationUnit = preferences.optString("complication_unit", "Celsius")
         val complicationStyle = preferences.optString("complication_style","Temperature only")
         val complicationTrimToFit = preferences.optString("complication_trim_to_fit","Disabled")
+        val launchPackage = preferences.optString("complication_launch_package", "")
 
         // get weather data
         val weather = jsonObject.getJSONObject("weather").toString()
@@ -68,12 +69,16 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
                         "Temperature and condition" -> "${temperatureUnitConverter(weatherData.currentTemp, complicationUnit)} ${weatherData.currentCondition}"
                         else -> temperatureUnitConverter(weatherData.currentTemp, complicationUnit)
                     }),
-                    onClick = null,      // TODO: open weather app
+                    onClick = when (context!!.packageManager.getLaunchIntentForPackage(launchPackage)) {
+                        null -> null
+                        else -> TapAction(
+                            intent = Intent(context!!.packageManager.getLaunchIntentForPackage(launchPackage))
+                        )
+                    },
                     trimToFit = when (complicationTrimToFit) {
                         "Disabled" -> TrimToFit.Disabled
                         else -> TrimToFit.Enabled
-                    }
-                ).create()
+                    }).create()
             )
         } else {
             // If nothing was returned above
@@ -87,7 +92,7 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
                         )
                     ),
                     content = Text("No data"),
-                    onClick = null      // TODO: open weather app
+                    onClick = null
                 ).create()
             )
         }

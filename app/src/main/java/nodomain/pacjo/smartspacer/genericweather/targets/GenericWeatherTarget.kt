@@ -27,7 +27,6 @@ import java.io.File
 class GenericWeatherTarget: SmartspacerTargetProvider() {
 
     override fun getSmartspaceTargets(smartspacerId: String): List<SmartspaceTarget> {
-
         val file = File(context?.filesDir, "data.json")
 
         isFirstRun(context!!)
@@ -39,6 +38,7 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
         val preferences = jsonObject.getJSONObject("preferences")
         val targetUnit = preferences.optString("target_unit", "Celsius")
         val targetStyle = preferences.optString("target_style","Temperature and condition")
+        val launchPackage = preferences.optString("target_launch_package", "")
         val dataSource = preferences.optString("target_data_source", "Hourly forecast")
         val dataPoints = preferences.optInt("target_point_visible", 4)
 
@@ -110,12 +110,13 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
                         shouldTint = false
                     ),
                     items = carouselItemList,
-                    onClick = TapAction(              // TODO: open weather app
-                        intent = Intent()
-                    ),
-                    onCarouselClick = TapAction(      // TODO: open weather app
-                        intent = Intent()
-                    )
+                    onClick = when (context!!.packageManager.getLaunchIntentForPackage(launchPackage)) {
+                        null -> null
+                        else -> TapAction(
+                            intent = Intent(context!!.packageManager.getLaunchIntentForPackage(launchPackage))
+                        )
+                    },
+                    onCarouselClick = null      // TODO: why isn't it optional
                 ).create().apply {
                     canBeDismissed = false
                 })
@@ -142,7 +143,13 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
                             )
                         ).toIcon(context),
                         shouldTint = false
-                    )
+                    ),
+                    onClick = when (context!!.packageManager.getLaunchIntentForPackage(launchPackage)) {
+                        null -> null
+                        else -> TapAction(
+                            intent = Intent(context!!.packageManager.getLaunchIntentForPackage(launchPackage))
+                        )
+                    }
                 ).create())
             }
         } else {

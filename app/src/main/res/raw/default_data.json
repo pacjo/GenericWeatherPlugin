@@ -3,9 +3,11 @@
     "target_unit": "Celsius",
     "target_style": "Temperature and condition",
     "target_point_visible": 4,
+    "target_launch_package": "",
     "complication_unit": "Celsius",
     "complication_style": "Temperature only",
-    "complication_trim_to_fit": "Disabled"
+    "complication_trim_to_fit": "Disabled",
+    "complication_launch_package": ""
   },
   "weather": {}
 }

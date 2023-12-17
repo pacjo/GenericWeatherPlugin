@@ -15,8 +15,6 @@ import java.io.File
 class GenericWeatherProvider: SmartspacerBroadcastProvider() {
 
     override fun onReceive(intent: Intent) {
-        // TODO: check which package sent the broadcast and save it somewhere
-
         // save data to file
         val weatherData = intent.getStringExtra("WeatherJson")
         val file = File(context?.filesDir, "data.json")

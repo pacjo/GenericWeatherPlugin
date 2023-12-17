@@ -1,6 +1,7 @@
 package nodomain.pacjo.smartspacer.genericweather.ui.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -13,10 +14,13 @@ import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerComplicationProvi
 import nodomain.pacjo.smartspacer.genericweather.R
 import nodomain.pacjo.smartspacer.genericweather.complications.GenericWeatherComplication
 import nodomain.pacjo.smartspacer.genericweather.ui.theme.getColorScheme
+import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceInput
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceMenu
 import nodomain.pacjo.smartspacer.genericweather.utils.SettingsTopBar
 import nodomain.pacjo.smartspacer.genericweather.utils.isFirstRun
 import nodomain.pacjo.smartspacer.genericweather.utils.savePreference
+import org.json.JSONObject
+import java.io.File
 
 class ComplicationConfigurationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +28,12 @@ class ComplicationConfigurationActivity : ComponentActivity() {
         setContent {
             val context = LocalContext.current
             isFirstRun(context)
+
+            // get launch package (as we need it to show the default)
+            val file = File(context.filesDir, "data.json")
+            val jsonObject = JSONObject(file.readText())
+            val preferences = jsonObject.getJSONObject("preferences")
+            val launchPackage = preferences.optString("complication_launch_package", "")
 
             MaterialTheme (
                 // Change default colorScheme to our dynamic one
@@ -65,12 +75,24 @@ class ComplicationConfigurationActivity : ComponentActivity() {
                             )
                         )
 
+                        PreferenceInput(
+                            icon = R.drawable.baseline_error_24,
+                            title = "Launch Package",
+                            subtitle = "Select package name of an app to open when complication is clicked",
+                            stateCallback = {
+                                    value -> savePreference(context,"complication_launch_package", value)
+                                SmartspacerComplicationProvider.notifyChange(context, GenericWeatherComplication::class.java)
+                            },
+                            dialogText = "Enter package name",
+                            defaultText = launchPackage
+                        )
+
                         PreferenceMenu(
                             icon = R.drawable.baseline_error_24,
                             title = "Allow longer complication text",
                             subtitle = "Enable if text is getting cut off. May cause unexpected results",
                             stateCallback = {
-                                    value -> savePreference(context,"complication_trim_to_fit", value)
+                                value -> savePreference(context,"complication_trim_to_fit", value)
                                 SmartspacerComplicationProvider.notifyChange(context, GenericWeatherComplication::class.java)
                             },
                             items = listOf(
