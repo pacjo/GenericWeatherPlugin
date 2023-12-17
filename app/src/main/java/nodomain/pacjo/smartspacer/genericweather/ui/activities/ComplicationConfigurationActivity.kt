@@ -64,6 +64,20 @@ class ComplicationConfigurationActivity : ComponentActivity() {
                                 "Fahrenheit"
                             )
                         )
+
+                        PreferenceMenu(
+                            icon = R.drawable.baseline_error_24,
+                            title = "Allow longer complication text",
+                            subtitle = "Enable if text is getting cut off. May cause unexpected results",
+                            stateCallback = {
+                                    value -> savePreference(context,"complication_trim_to_fit", value)
+                                SmartspacerComplicationProvider.notifyChange(context, GenericWeatherComplication::class.java)
+                            },
+                            items = listOf(
+                                "Enabled",
+                                "Disabled"
+                            )
+                        )
                     }
                 }
             }

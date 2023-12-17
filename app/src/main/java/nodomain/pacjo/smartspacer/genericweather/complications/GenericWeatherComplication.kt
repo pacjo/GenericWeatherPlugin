@@ -7,10 +7,12 @@ import android.graphics.drawable.Icon
 import android.util.Log
 import androidx.core.graphics.drawable.IconCompat
 import com.google.gson.Gson
+import com.kieronquinn.app.smartspacer.sdk.annotations.DisablingTrim
 import com.kieronquinn.app.smartspacer.sdk.model.SmartspaceAction
 import com.kieronquinn.app.smartspacer.sdk.model.uitemplatedata.Text
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerComplicationProvider
 import com.kieronquinn.app.smartspacer.sdk.utils.ComplicationTemplate
+import com.kieronquinn.app.smartspacer.sdk.utils.TrimToFit
 import nodomain.pacjo.smartspacer.genericweather.R
 import nodomain.pacjo.smartspacer.genericweather.ui.activities.ComplicationConfigurationActivity
 import nodomain.pacjo.smartspacer.genericweather.utils.WeatherData
@@ -22,6 +24,7 @@ import java.io.File
 
 class GenericWeatherComplication: SmartspacerComplicationProvider() {
 
+    @OptIn(DisablingTrim::class)
     override fun getSmartspaceActions(smartspacerId: String): List<SmartspaceAction> {
 
         val file = File(context?.filesDir, "data.json")
@@ -34,6 +37,7 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
         val preferences = jsonObject.getJSONObject("preferences")
         val complicationUnit = preferences.optString("complication_unit", "Celsius")
         val complicationStyle = preferences.optString("complication_style","Temperature only")
+        val complicationTrimToFit = preferences.optString("complication_trim_to_fit","Disabled")
 
         // get weather data
         val weather = jsonObject.getJSONObject("weather").toString()
@@ -65,7 +69,11 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
                         "Temperature and condition" -> "${temperatureUnitConverter(weatherData.currentTemp, complicationUnit)} ${weatherData.currentCondition}"
                         else -> temperatureUnitConverter(weatherData.currentTemp, complicationUnit)         // TODO: check if it can be re-written
                     }),
-                    onClick = null      // TODO: open weather app
+                    onClick = null,      // TODO: open weather app
+                    trimToFit = when (complicationTrimToFit) {
+                        "Disabled" -> TrimToFit.Disabled
+                        else -> TrimToFit.Enabled
+                    }
                 ).create()
             )
         } else {

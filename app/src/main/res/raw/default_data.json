@@ -4,7 +4,8 @@
     "target_style": "Temperature and condition",
     "target_point_visible": 4,
     "complication_unit": "Celsius",
-    "complication_style": "Temperature only"
+    "complication_style": "Temperature only",
+    "complication_trim_to_fit": "Disabled"
   },
   "weather": {}
 }
