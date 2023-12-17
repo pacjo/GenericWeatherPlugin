@@ -25,17 +25,19 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
 
         val file = File(context?.filesDir, "data.json")
 
-        if (file.exists()) {
-            val jsonString = file.readText()
-            val jsonObject = JSONObject(jsonString)
+        isFirstRun(context!!)
+        val jsonString = file.readText()
+        val jsonObject = JSONObject(jsonString)
 
-            // get preferences
-            val preferences = jsonObject.getJSONObject("preferences")
-            val complicationUnit = preferences.optString("complication_unit", "Celsius")
-            val complicationStyle = preferences.optString("complication_style","Temperature only")
+        // get preferences
+        val preferences = jsonObject.getJSONObject("preferences")
+        val complicationUnit = preferences.optString("complication_unit", "Celsius")
+        val complicationStyle = preferences.optString("complication_style","Temperature only")
 
-            // get weather data
-            val weather = jsonObject.getJSONObject("weather").toString()
+        // get weather data
+        val weather = jsonObject.getJSONObject("weather").toString()
+        if (weather != "{}") {
+
             val gson = Gson()
             val weatherData = gson.fromJson(weather, WeatherData::class.java)
 
@@ -65,22 +67,22 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
                     onClick = null      // TODO: open weather app
                 ).create()
             )
+        } else {
+            // If nothing was returned above
+            return listOf(
+                ComplicationTemplate.Basic(
+                    id = "example_$smartspacerId",
+                    icon = com.kieronquinn.app.smartspacer.sdk.model.uitemplatedata.Icon(
+                        Icon.createWithResource(
+                            context,
+                            R.drawable.baseline_error_24
+                        )
+                    ),
+                    content = Text("No data"),
+                    onClick = null      // TODO: open weather app
+                ).create()
+            )
         }
-
-        // If nothing was returned above
-        return listOf(
-            ComplicationTemplate.Basic(
-                id = "example_$smartspacerId",
-                icon = com.kieronquinn.app.smartspacer.sdk.model.uitemplatedata.Icon(
-                    Icon.createWithResource(
-                        context,
-                        R.drawable.baseline_error_24
-                    )
-                ),
-                content = Text("No data"),
-                onClick = null      // TODO: open weather app
-            ).create()
-        )
     }
 
     override fun getConfig(smartspacerId: String?): Config {

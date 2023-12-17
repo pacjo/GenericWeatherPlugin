@@ -18,6 +18,7 @@ import com.kieronquinn.app.smartspacer.sdk.utils.TargetTemplate
 import nodomain.pacjo.smartspacer.genericweather.R
 import nodomain.pacjo.smartspacer.genericweather.ui.activities.TargetConfigurationActivity
 import nodomain.pacjo.smartspacer.genericweather.utils.WeatherData
+import nodomain.pacjo.smartspacer.genericweather.utils.isFirstRun
 import nodomain.pacjo.smartspacer.genericweather.utils.temperatureUnitConverter
 import nodomain.pacjo.smartspacer.genericweather.utils.weatherDataToIcon
 import org.json.JSONObject
@@ -29,19 +30,22 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
 
         val file = File(context?.filesDir, "data.json")
 
-        if (file.exists()) {
-            val jsonString = file.readText()
-            val jsonObject = JSONObject(jsonString)
+        isFirstRun(context!!)
 
-            // get preferences
-            val preferences = jsonObject.getJSONObject("preferences")
-            val targetUnit = preferences.optString("target_unit", "Celsius")
-            val targetStyle = preferences.optString("target_style","Temperature and condition")
-            val dataSource = preferences.optString("target_data_source", "Hourly forecast")
-            val dataPoints = preferences.optInt("target_point_visible", 4)
+        val jsonString = file.readText()
+        val jsonObject = JSONObject(jsonString)
 
-            // get weather data
-            val weather = jsonObject.getJSONObject("weather").toString()
+        // get preferences
+        val preferences = jsonObject.getJSONObject("preferences")
+        val targetUnit = preferences.optString("target_unit", "Celsius")
+        val targetStyle = preferences.optString("target_style","Temperature and condition")
+        val dataSource = preferences.optString("target_data_source", "Hourly forecast")
+        val dataPoints = preferences.optInt("target_point_visible", 4)
+
+        // get weather data
+        val weather = jsonObject.getJSONObject("weather").toString()
+        if (weather != "{}") {
+
             val gson = Gson()
             val weatherData = gson.fromJson(weather, WeatherData::class.java)
 

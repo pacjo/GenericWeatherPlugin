@@ -8,6 +8,7 @@ import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerComplicationProvi
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerTargetProvider
 import nodomain.pacjo.smartspacer.genericweather.complications.GenericWeatherComplication
 import nodomain.pacjo.smartspacer.genericweather.targets.GenericWeatherTarget
+import nodomain.pacjo.smartspacer.genericweather.utils.isFirstRun
 import org.json.JSONObject
 import java.io.File
 
@@ -21,11 +22,7 @@ class GenericWeatherProvider: SmartspacerBroadcastProvider() {
         val file = File(context?.filesDir, "data.json")
 
         if (weatherData != null) {
-            //create file if needed
-            if (!file.exists()) {
-                file.createNewFile()
-                file.writeText("{ \"preferences\": {}, \"weather\": {} }")
-            }
+            isFirstRun(context!!)
 
             // Read JSON
             val jsonObject = JSONObject(file.readText())

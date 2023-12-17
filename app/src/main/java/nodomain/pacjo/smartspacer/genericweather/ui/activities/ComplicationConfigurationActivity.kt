@@ -15,14 +15,15 @@ import nodomain.pacjo.smartspacer.genericweather.complications.GenericWeatherCom
 import nodomain.pacjo.smartspacer.genericweather.ui.theme.getColorScheme
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceMenu
 import nodomain.pacjo.smartspacer.genericweather.utils.SettingsTopBar
+import nodomain.pacjo.smartspacer.genericweather.utils.isFirstRun
 import nodomain.pacjo.smartspacer.genericweather.utils.savePreference
 
 class ComplicationConfigurationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // we'll need that later
             val context = LocalContext.current
+            isFirstRun(context)
 
             MaterialTheme (
                 // Change default colorScheme to our dynamic one

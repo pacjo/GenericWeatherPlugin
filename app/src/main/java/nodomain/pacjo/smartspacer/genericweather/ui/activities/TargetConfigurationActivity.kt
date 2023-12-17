@@ -16,6 +16,7 @@ import nodomain.pacjo.smartspacer.genericweather.ui.theme.getColorScheme
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceMenu
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceSlider
 import nodomain.pacjo.smartspacer.genericweather.utils.SettingsTopBar
+import nodomain.pacjo.smartspacer.genericweather.utils.isFirstRun
 import nodomain.pacjo.smartspacer.genericweather.utils.savePreference
 import org.json.JSONObject
 import java.io.File
@@ -24,15 +25,12 @@ class TargetConfigurationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // we'll need that later
             val context = LocalContext.current
+            isFirstRun(context)
 
             // get number of forecast points (as we need it to show the default)
             val file = File(context.filesDir, "data.json")
-            val jsonObject = JSONObject(when (file.exists()) {
-                true -> file.readText()
-                else -> ""
-            })
+            val jsonObject = JSONObject(file.readText())
             val preferences = jsonObject.getJSONObject("preferences")
             val dataPoints = preferences.optInt("target_point_visible", 4)
 
