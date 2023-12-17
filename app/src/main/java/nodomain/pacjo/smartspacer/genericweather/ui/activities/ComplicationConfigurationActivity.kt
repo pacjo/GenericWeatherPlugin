@@ -10,13 +10,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerComplicationProvider
-import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerTargetProvider
 import nodomain.pacjo.smartspacer.genericweather.R
 import nodomain.pacjo.smartspacer.genericweather.complications.GenericWeatherComplication
-import nodomain.pacjo.smartspacer.genericweather.targets.GenericWeatherTarget
+import nodomain.pacjo.smartspacer.genericweather.ui.theme.getColorScheme
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceMenu
 import nodomain.pacjo.smartspacer.genericweather.utils.SettingsTopBar
-import nodomain.pacjo.smartspacer.genericweather.utils.getColorScheme
 import nodomain.pacjo.smartspacer.genericweather.utils.savePreference
 
 class ComplicationConfigurationActivity : ComponentActivity() {
