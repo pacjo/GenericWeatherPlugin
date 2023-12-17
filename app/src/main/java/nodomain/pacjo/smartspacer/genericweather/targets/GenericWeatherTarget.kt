@@ -36,7 +36,7 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
             // get preferences
             val preferences = jsonObject.getJSONObject("preferences")
             val targetUnit = preferences.optString("target_unit", "Celsius")
-            val targetStyle = preferences.optString("target_style","Temperature only")
+            val targetStyle = preferences.optString("target_style","Temperature and condition")
             val dataSource = preferences.optString("target_data_source", "Hourly forecast")
             val dataPoints = preferences.optInt("target_point_visible", 4)
 
