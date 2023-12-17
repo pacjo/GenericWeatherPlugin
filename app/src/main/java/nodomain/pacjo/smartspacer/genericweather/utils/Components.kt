@@ -49,8 +49,11 @@ import kotlin.math.roundToInt
 fun savePreference(context: Context, id: String, value: Any) {
     val file = File(context.filesDir, "data.json")                      // TODO: don't hardcode
 
-    val jsonString = file.readText()
-    val jsonObject = JSONObject(jsonString)
+    // create empty JSONObject if file doesn't exist
+    val jsonObject = JSONObject(when (file.exists()) {
+        true -> file.readText()
+        else -> ""
+    })
 
     val preferencesObject: JSONObject
     if (jsonObject.has("preferences")) {                                // TODO: don't hardcode

@@ -29,7 +29,10 @@ class TargetConfigurationActivity : ComponentActivity() {
 
             // get number of forecast points (as we need it to show the default)
             val file = File(context.filesDir, "data.json")
-            val jsonObject = JSONObject(file.readText())
+            val jsonObject = JSONObject(when (file.exists()) {
+                true -> file.readText()
+                else -> ""
+            })
             val preferences = jsonObject.getJSONObject("preferences")
             val dataPoints = preferences.optInt("target_point_visible", 4)
 
