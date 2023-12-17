@@ -36,9 +36,8 @@ class GenericWeatherProvider: SmartspacerBroadcastProvider() {
             file.writeText(jsonObject.toString())
         }
 
-
-        SmartspacerTargetProvider.notifyChange(requireContext(), GenericWeatherTarget::class.java)
-        SmartspacerComplicationProvider.notifyChange(requireContext(), GenericWeatherComplication::class.java)
+        SmartspacerTargetProvider.notifyChange(context!!, GenericWeatherTarget::class.java)
+        SmartspacerComplicationProvider.notifyChange(context!!, GenericWeatherComplication::class.java)
     }
 
     override fun getConfig(smartspacerId: String): Config {

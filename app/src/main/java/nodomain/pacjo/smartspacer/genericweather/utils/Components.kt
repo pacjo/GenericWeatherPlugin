@@ -65,20 +65,6 @@ fun savePreference(context: Context, id: String, value: Any) {
     file.writeText(jsonObject.toString())
 }
 
-@Composable
-fun getColorScheme(): ColorScheme {
-    // TODO: add support for SDK 30 (android 11)
-    // more info here: https://developer.android.com/jetpack/compose/designsystems/material3
-    val darkTheme: Boolean = isSystemInDarkTheme()
-    return when {
-        darkTheme -> dynamicDarkColorScheme(LocalContext.current)
-        !darkTheme -> dynamicLightColorScheme(LocalContext.current)
-        else -> {
-            dynamicDarkColorScheme(LocalContext.current)        // TODO: also change to something better
-        }
-    }
-}
-
 // Boilerplate for other Preference composables
 @Composable
 fun PreferenceContainer(icon: Int, title: String, subtitle: String) {

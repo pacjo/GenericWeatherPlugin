@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerTargetProvider
 import nodomain.pacjo.smartspacer.genericweather.R
 import nodomain.pacjo.smartspacer.genericweather.targets.GenericWeatherTarget
+import nodomain.pacjo.smartspacer.genericweather.ui.theme.getColorScheme
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceMenu
 import nodomain.pacjo.smartspacer.genericweather.utils.PreferenceSlider
 import nodomain.pacjo.smartspacer.genericweather.utils.SettingsTopBar

@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "nodomain.pacjo.smartspacer.genericweather"
-        minSdk = 31
+        minSdk = 29
         targetSdk = 34
         versionCode = 1000
         versionName = "1.0"
