@@ -57,9 +57,8 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
 //            val dailyForecasts = weatherData.forecasts
 //
 //            val forecast = when (dataSource) {
-//                "Hourly forecast" -> weatherData.hourly
 //                "Daily forecast" -> weatherData.forecasts
-//                else -> weatherData.hourly                  // TODO: check if can be re-written
+//                else -> weatherData.hourly
 //            }
 
             if (dataPoints > 0) {
@@ -92,10 +91,9 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
                     componentName = ComponentName(context!!, GenericWeatherTarget::class.java),
                     title = Text(location),
                     subtitle = Text(when (targetStyle) {
-                        "Temperature only" -> temperatureUnitConverter(weatherData.currentTemp, targetUnit)
                         "Condition only" -> weatherData.currentCondition
                         "Temperature and condition" -> "${temperatureUnitConverter(weatherData.currentTemp, targetUnit)} ${weatherData.currentCondition}"
-                        else -> temperatureUnitConverter(weatherData.currentTemp, targetUnit)         // TODO: check if it can be re-written
+                        else -> temperatureUnitConverter(weatherData.currentTemp, targetUnit)
                     }),
                     icon = com.kieronquinn.app.smartspacer.sdk.model.uitemplatedata.Icon(
                         IconCompat.createWithBitmap(
@@ -127,10 +125,9 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
                     componentName = ComponentName(context!!, GenericWeatherTarget::class.java),
                     title = Text(location),
                     subtitle = Text(when (targetStyle) {
-                        "Temperature only" -> temperatureUnitConverter(weatherData.currentTemp, targetUnit)
                         "Condition only" -> weatherData.currentCondition
                         "Temperature and condition" -> "${temperatureUnitConverter(weatherData.currentTemp, targetUnit)} ${weatherData.currentCondition}"
-                        else -> temperatureUnitConverter(weatherData.currentTemp, targetUnit)         // TODO: check if it can be re-written
+                        else -> temperatureUnitConverter(weatherData.currentTemp, targetUnit)
                     }),
                     icon = com.kieronquinn.app.smartspacer.sdk.model.uitemplatedata.Icon(
                         IconCompat.createWithBitmap(

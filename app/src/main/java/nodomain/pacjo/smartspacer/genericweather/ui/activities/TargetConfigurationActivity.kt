@@ -80,7 +80,7 @@ class TargetConfigurationActivity : ComponentActivity() {
                             },
                             items = listOf(
                                 "Temperature only",
-                                "Condition only",               // TODO: can we make it scrolling?
+                                "Condition only",
                                 "Temperature and condition"
                             )
                         )

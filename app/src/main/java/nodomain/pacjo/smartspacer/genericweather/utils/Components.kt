@@ -189,10 +189,9 @@ fun PreferenceSlider(icon: Int, title: String, subtitle: String, stateCallback: 
 fun SettingsTopBar(title: String) {
     LargeTopAppBar(
         title = {
-            Text(       // TODO: Too big when collapsed
+            Text(
                 title,
                 maxLines = 1,
-                style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.SemiBold
             )
         },

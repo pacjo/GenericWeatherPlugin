@@ -139,7 +139,7 @@ fun temperatureUnitConverter(value: Int, preference: String): String {
     return when (preference) {
         "Kelvin" -> "$value K"
         "Celsius" -> "${value - 273}°C"
-        "Fahrenheit" -> "${((value - 273) * 1.8) + 32}°F"           // TODO: convert to Integer
+        "Fahrenheit" -> "${(((value - 273) * 1.8) + 32).toInt()}°F"
         else -> {
             throw IllegalArgumentException("Unknown preference: $preference")
         }

@@ -64,10 +64,9 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
                         shouldTint = false
                     ),
                     content = Text(when (complicationStyle) {
-                        "Temperature only" -> temperatureUnitConverter(weatherData.currentTemp, complicationUnit)
                         "Condition only" -> weatherData.currentCondition
                         "Temperature and condition" -> "${temperatureUnitConverter(weatherData.currentTemp, complicationUnit)} ${weatherData.currentCondition}"
-                        else -> temperatureUnitConverter(weatherData.currentTemp, complicationUnit)         // TODO: check if it can be re-written
+                        else -> temperatureUnitConverter(weatherData.currentTemp, complicationUnit)
                     }),
                     onClick = null,      // TODO: open weather app
                     trimToFit = when (complicationTrimToFit) {
