@@ -35,7 +35,6 @@ class GenericSunTimesComplication: SmartspacerComplicationProvider() {
 
         // get preferences
         val preferences = jsonObject.getJSONObject("preferences")
-        val complicationStyle = preferences.optString("complication_suntimes_style","exact")
         val complicationTrimToFit = preferences.optBoolean("complication_suntimes_trim_to_fit",true)
         val launchPackage = preferences.optString("complication_launch_package", "")        // TODO: maybe make one for all
 
@@ -75,11 +74,12 @@ class GenericSunTimesComplication: SmartspacerComplicationProvider() {
                         )
                     ),
                     content = Text(
-                        when (complicationStyle) {
-                            "time_to" -> "in ${SimpleDateFormatWrapper(nextEvent - System.currentTimeMillis(), true)}"
-                            "both" -> "in ${SimpleDateFormatWrapper(nextEvent - System.currentTimeMillis(), true)} (${SimpleDateFormat("HH:mm").format(nextEvent)})"
-                            else -> SimpleDateFormat("HH:mm").format(nextEvent)
-                        }
+//                        when (complicationStyle) {
+//                            "time_to" -> "in ${SimpleDateFormatWrapper(nextEvent - System.currentTimeMillis(), true)}"
+//                            "both" -> "in ${SimpleDateFormatWrapper(nextEvent - System.currentTimeMillis(), true)} (${SimpleDateFormat("HH:mm").format(nextEvent)})"
+//                            else -> SimpleDateFormat("HH:mm").format(nextEvent)
+//                        }
+                        SimpleDateFormat("HH:mm").format(nextEvent)
                     ),
                     onClick = when (context!!.packageManager.getLaunchIntentForPackage(launchPackage)) {
                         null -> null

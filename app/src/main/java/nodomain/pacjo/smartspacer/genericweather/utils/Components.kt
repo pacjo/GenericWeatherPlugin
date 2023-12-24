@@ -1,4 +1,4 @@
-package nodomain.pacjo.smartspacer.genericweather.utils     // TODO: rename to ConfigurationComponents
+package nodomain.pacjo.smartspacer.genericweather.utils
 
 import android.content.Context
 import android.graphics.drawable.Icon
@@ -45,7 +45,7 @@ import java.io.File
 import kotlin.math.roundToInt
 
 fun savePreference(context: Context, id: String, value: Any) {
-    val file = File(context.filesDir, "data.json")                      // TODO: don't hardcode
+    val file = File(context.filesDir, "data.json")
 
     // create empty JSONObject if file doesn't exist
     val jsonObject = JSONObject(when (file.exists()) {
@@ -54,7 +54,7 @@ fun savePreference(context: Context, id: String, value: Any) {
     })
 
     val preferencesObject: JSONObject
-    if (jsonObject.has("preferences")) {                                // TODO: don't hardcode
+    if (jsonObject.has("preferences")) {
         preferencesObject = jsonObject.getJSONObject("preferences")
     } else {
         preferencesObject = JSONObject()

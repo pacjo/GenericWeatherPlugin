@@ -15,7 +15,7 @@ fun isFirstRun(context: Context) {
     //   - it's the first run after installation / data reset
     //   - something went wrong, but we can blame that on the user
     if (!file.exists()) {
-        val outputFile = File(context.filesDir, "data.json")         // TODO: don't hardcode
+        val outputFile = File(context.filesDir, "data.json")
 
         val outputStream: OutputStream = FileOutputStream(outputFile)
         context.resources.openRawResource(R.raw.default_data).use { input ->
@@ -51,17 +51,17 @@ fun convertTimeTo(timeInMilliseconds: Long, shortStyle: Boolean = false): String
     }
 }
 
-fun SimpleDateFormatWrapper(timeInMilliseconds: Long, shortStyle: Boolean = false): String {
+fun SimpleDateFormatWrapper(timeInMilliseconds: Long, shortStyle: Boolean = false): String {        // TODO: respect locale 12/24h
     // probably should add check for number of days
     return if (shortStyle) {
         when (SimpleDateFormat("H").format(timeInMilliseconds).toInt() > 0) {
-            true -> SimpleDateFormat("H 'hrs' mm 'm'").format(timeInMilliseconds)
-            else -> SimpleDateFormat("mm 'm'").format(timeInMilliseconds)
+            true -> SimpleDateFormat("H 'hrs' m 'm'").format(timeInMilliseconds)
+            else -> SimpleDateFormat("m 'm'").format(timeInMilliseconds)
         }
     } else {
         when (SimpleDateFormat("H").format(timeInMilliseconds).toInt() > 0) {
-            true -> SimpleDateFormat("H 'hours' mm 'minutes'").format(timeInMilliseconds)
-            else -> SimpleDateFormat("mm 'minutes'").format(timeInMilliseconds)
+            true -> SimpleDateFormat("H 'hours' m 'minutes'").format(timeInMilliseconds)
+            else -> SimpleDateFormat("m 'minutes'").format(timeInMilliseconds)
         }
     }
 }
