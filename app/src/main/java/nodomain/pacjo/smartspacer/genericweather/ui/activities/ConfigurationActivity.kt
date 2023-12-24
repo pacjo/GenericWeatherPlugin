@@ -349,20 +349,20 @@ class ConfigurationActivity : ComponentActivity() {
                         Divider()
                         Text("Sun times complication")
 
-                        PreferenceMenu(
-                            icon = R.drawable.baseline_error_24,
-                            title = "Style",
-                            subtitle = "Select complication style",
-                            stateCallback = {
-                                value -> savePreference(context,"complication_suntimes_style", value)
-                                SmartspacerComplicationProvider.notifyChange(context, GenericSunTimesComplication::class.java)
-                            },
-                            items = listOf(
-                                Pair("Exact time", "exact"),
-                                Pair("Time to", "time_to"),
-                                Pair("Time to + exact time", "both")
-                            )
-                        )
+//                        PreferenceMenu(
+//                            icon = R.drawable.baseline_error_24,
+//                            title = "Style",
+//                            subtitle = "Select complication style",
+//                            stateCallback = {
+//                                value -> savePreference(context,"complication_suntimes_style", value)
+//                                SmartspacerComplicationProvider.notifyChange(context, GenericSunTimesComplication::class.java)
+//                            },
+//                            items = listOf(
+//                                Pair("Exact time", "exact"),
+//                                Pair("Time to", "time_to"),
+//                                Pair("Time to + exact time", "both")
+//                            )
+//                        )
 
                         PreferenceSwitch(
                             icon = R.drawable.baseline_error_24,
