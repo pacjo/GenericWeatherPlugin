@@ -39,6 +39,15 @@
             </intent-filter>
         </provider>
         <provider
+            android:name=".complications.GenericSunTimesComplication"
+            android:authorities="${applicationId}.complication.suntimes"
+            android:exported="true"
+            android:permission="com.kieronquinn.app.smartspacer.permission.ACCESS_SMARTSPACER_COMPLICATIONS" >
+            <intent-filter>
+                <action android:name="com.kieronquinn.app.smartspacer.COMPLICATION" />
+            </intent-filter>
+        </provider>
+        <provider
             android:name=".providers.GenericWeatherProvider"
             android:authorities="${applicationId}.providers.weather"
             android:exported="true"
