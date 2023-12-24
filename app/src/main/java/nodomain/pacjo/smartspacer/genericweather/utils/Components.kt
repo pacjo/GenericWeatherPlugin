@@ -72,7 +72,7 @@ fun PreferenceContainer(icon: Int, title: String, subtitle: String) {
     Row {
         Box {
             Icon.createWithResource(        // TODO: should work, doesn't
-                LocalContext.current.packageName,
+                LocalContext.current,
                 icon
             )
         }
@@ -106,11 +106,8 @@ fun PreferenceSwitch(icon: Int, title: String, subtitle: String, stateCallback: 
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            PreferenceContainer(
-                icon,
-                title,
-                subtitle
-            )
+            PreferenceContainer(icon, title, subtitle)
+
             Switch(
                 checked = isChecked,
                 onCheckedChange = { state ->
@@ -124,7 +121,7 @@ fun PreferenceSwitch(icon: Int, title: String, subtitle: String, stateCallback: 
 }
 
 @Composable
-fun PreferenceMenu(icon: Int, title: String, subtitle: String, stateCallback: (value: String) -> Unit, items: List<String>) {
+fun PreferenceMenu(icon: Int, title: String, subtitle: String, stateCallback: (value: Any) -> Unit, items: List<Pair<String, Any>>) {
     var isExpanded by remember { mutableStateOf(false) }
 
     Row(
@@ -143,9 +140,9 @@ fun PreferenceMenu(icon: Int, title: String, subtitle: String, stateCallback: (v
         ) {
             items.forEach { item ->
                 DropdownMenuItem(
-                    text = { Text(item) },
+                    text = { Text(item.first) },
                     onClick = {
-                        stateCallback(item)
+                        stateCallback(item.second)
 
                         // ... and close menu
                         isExpanded = false
@@ -171,11 +168,7 @@ fun PreferenceInput(icon: Int, title: String, subtitle: String, stateCallback: (
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            PreferenceContainer(
-                icon,
-                title,
-                subtitle
-            )
+            PreferenceContainer(icon, title, subtitle)
         }
     }
 
@@ -263,14 +256,14 @@ fun SettingsTopBar(title: String) {
                 fontWeight = FontWeight.SemiBold
             )
         },
-        navigationIcon = {
-            IconButton(onClick = { /* TODO: add go back */ }) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Back arrow"
-                )
-            }
-        },
+//        navigationIcon = {
+//            IconButton(onClick = { /* TODO: add go back */ }) {
+//                Icon(
+//                    imageVector = Icons.Filled.ArrowBack,
+//                    contentDescription = "Back arrow"
+//                )
+//            }
+//        },
         scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     )
 }

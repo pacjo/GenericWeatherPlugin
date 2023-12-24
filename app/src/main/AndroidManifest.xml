@@ -15,12 +15,7 @@
         android:theme="@style/Theme.LocalBatteryPlugin"
         tools:targetApi="34">
         <activity
-            android:name=".ui.activities.ComplicationConfigurationActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:launchMode="singleInstance" />
-        <activity
-            android:name=".ui.activities.TargetConfigurationActivity"
+            android:name=".ui.activities.ConfigurationActivity"
             android:excludeFromRecents="true"
             android:exported="true"
             android:launchMode="singleInstance" />

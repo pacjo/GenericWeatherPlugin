@@ -16,7 +16,7 @@ import com.kieronquinn.app.smartspacer.sdk.model.uitemplatedata.Text
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerTargetProvider
 import com.kieronquinn.app.smartspacer.sdk.utils.TargetTemplate
 import nodomain.pacjo.smartspacer.genericweather.R
-import nodomain.pacjo.smartspacer.genericweather.ui.activities.TargetConfigurationActivity
+import nodomain.pacjo.smartspacer.genericweather.ui.activities.ConfigurationActivity
 import nodomain.pacjo.smartspacer.genericweather.utils.WeatherData
 import nodomain.pacjo.smartspacer.genericweather.utils.isFirstRun
 import nodomain.pacjo.smartspacer.genericweather.utils.temperatureUnitConverter
@@ -36,11 +36,11 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
 
         // get preferences
         val preferences = jsonObject.getJSONObject("preferences")
-        val targetUnit = preferences.optString("target_unit", "Celsius")
-        val targetStyle = preferences.optString("target_style","Temperature and condition")
+        val targetUnit = preferences.optString("target_unit", "C")
+        val targetStyle = preferences.optString("target_style","both")
         val launchPackage = preferences.optString("target_launch_package", "")
-        val dataSource = preferences.optString("target_data_source", "Hourly forecast")
-        val dataPoints = preferences.optInt("target_point_visible", 4)
+        val dataSource = preferences.optString("target_data_source", "hourly")
+        val dataPoints = preferences.optInt("target_points_visible", 4)
 
         // get weather data
         val weather = jsonObject.getJSONObject("weather").toString()
@@ -57,7 +57,7 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
 //            val dailyForecasts = weatherData.forecasts
 //
 //            val forecast = when (dataSource) {
-//                "Daily forecast" -> weatherData.forecasts
+//                "daily" -> weatherData.forecasts
 //                else -> weatherData.hourly
 //            }
 
@@ -91,8 +91,8 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
                     componentName = ComponentName(context!!, GenericWeatherTarget::class.java),
                     title = Text(location),
                     subtitle = Text(when (targetStyle) {
-                        "Condition only" -> weatherData.currentCondition
-                        "Temperature and condition" -> "${temperatureUnitConverter(weatherData.currentTemp, targetUnit)} ${weatherData.currentCondition}"
+                        "condition" -> weatherData.currentCondition
+                        "both" -> "${temperatureUnitConverter(weatherData.currentTemp, targetUnit)} ${weatherData.currentCondition}"
                         else -> temperatureUnitConverter(weatherData.currentTemp, targetUnit)
                     }),
                     icon = com.kieronquinn.app.smartspacer.sdk.model.uitemplatedata.Icon(
@@ -100,7 +100,7 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
                             Bitmap.createScaledBitmap(
                                 BitmapFactory.decodeResource(
                                     resources,
-                                    weatherDataToIcon(weatherData, 0)           // TODO: also make time sensitive
+                                    weatherDataToIcon(weatherData, 0)
                                 ),
                                 25,
                                 25,
@@ -126,8 +126,8 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
                     componentName = ComponentName(context!!, GenericWeatherTarget::class.java),
                     title = Text(location),
                     subtitle = Text(when (targetStyle) {
-                        "Condition only" -> weatherData.currentCondition
-                        "Temperature and condition" -> "${temperatureUnitConverter(weatherData.currentTemp, targetUnit)} ${weatherData.currentCondition}"
+                        "condition" -> weatherData.currentCondition
+                        "both" -> "${temperatureUnitConverter(weatherData.currentTemp, targetUnit)} ${weatherData.currentCondition}"
                         else -> temperatureUnitConverter(weatherData.currentTemp, targetUnit)
                     }),
                     icon = com.kieronquinn.app.smartspacer.sdk.model.uitemplatedata.Icon(
@@ -172,8 +172,8 @@ class GenericWeatherTarget: SmartspacerTargetProvider() {
         return Config(
             label = "Generic weather",
             description = "Shows weather information from supported apps",
-            icon = Icon.createWithResource(context, R.drawable.ic_launcher_foreground),     // TODO: change
-            configActivity = Intent(context, TargetConfigurationActivity::class.java),
+            icon = Icon.createWithResource(context, R.drawable.ic_launcher_foreground),     // TODO: fix small size in smartspacer
+            configActivity = Intent(context, ConfigurationActivity::class.java),
             broadcastProvider = "nodomain.pacjo.smartspacer.genericweather.providers.weather"
         )
     }

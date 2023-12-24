@@ -15,7 +15,7 @@ import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerComplicationProvi
 import com.kieronquinn.app.smartspacer.sdk.utils.ComplicationTemplate
 import com.kieronquinn.app.smartspacer.sdk.utils.TrimToFit
 import nodomain.pacjo.smartspacer.genericweather.R
-import nodomain.pacjo.smartspacer.genericweather.ui.activities.ComplicationConfigurationActivity
+import nodomain.pacjo.smartspacer.genericweather.ui.activities.ConfigurationActivity
 import nodomain.pacjo.smartspacer.genericweather.utils.WeatherData
 import nodomain.pacjo.smartspacer.genericweather.utils.isFirstRun
 import nodomain.pacjo.smartspacer.genericweather.utils.temperatureUnitConverter
@@ -35,9 +35,9 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
 
         // get preferences
         val preferences = jsonObject.getJSONObject("preferences")
-        val complicationUnit = preferences.optString("complication_unit", "Celsius")
-        val complicationStyle = preferences.optString("complication_style","Temperature only")
-        val complicationTrimToFit = preferences.optString("complication_trim_to_fit","Disabled")
+        val complicationUnit = preferences.optString("complication_unit", "C")
+        val complicationStyle = preferences.optString("complication_style","temperature")
+        val complicationTrimToFit = preferences.optBoolean("complication_trim_to_fit",true)
         val launchPackage = preferences.optString("complication_launch_package", "")
 
         // get weather data
@@ -65,8 +65,8 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
                         shouldTint = false
                     ),
                     content = Text(when (complicationStyle) {
-                        "Condition only" -> weatherData.currentCondition
-                        "Temperature and condition" -> "${temperatureUnitConverter(weatherData.currentTemp, complicationUnit)} ${weatherData.currentCondition}"
+                        "condition" -> weatherData.currentCondition
+                        "both" -> "${temperatureUnitConverter(weatherData.currentTemp, complicationUnit)} ${weatherData.currentCondition}"
                         else -> temperatureUnitConverter(weatherData.currentTemp, complicationUnit)
                     }),
                     onClick = when (context!!.packageManager.getLaunchIntentForPackage(launchPackage)) {
@@ -76,7 +76,7 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
                         )
                     },
                     trimToFit = when (complicationTrimToFit) {
-                        "Disabled" -> TrimToFit.Disabled
+                        false -> TrimToFit.Disabled
                         else -> TrimToFit.Enabled
                     }).create()
             )
@@ -102,8 +102,8 @@ class GenericWeatherComplication: SmartspacerComplicationProvider() {
         return Config(
             label = "Generic weather",
             description = "Shows temperature and/or condition icon from supported apps",
-            icon = Icon.createWithResource(context, R.drawable.ic_launcher_foreground),     // TODO: change
-            configActivity = Intent(context, ComplicationConfigurationActivity::class.java),
+            icon = Icon.createWithResource(context, R.drawable.ic_launcher_foreground),     // TODO: fix small size in smartspacer
+            configActivity = Intent(context, ConfigurationActivity::class.java),
             broadcastProvider = "nodomain.pacjo.smartspacer.genericweather.providers.weather"
         )
     }

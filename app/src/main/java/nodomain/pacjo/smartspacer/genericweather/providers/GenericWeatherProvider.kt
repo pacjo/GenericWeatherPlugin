@@ -6,6 +6,7 @@ import android.util.Log
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerBroadcastProvider
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerComplicationProvider
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerTargetProvider
+import nodomain.pacjo.smartspacer.genericweather.complications.GenericSunTimesComplication
 import nodomain.pacjo.smartspacer.genericweather.complications.GenericWeatherComplication
 import nodomain.pacjo.smartspacer.genericweather.targets.GenericWeatherTarget
 import nodomain.pacjo.smartspacer.genericweather.utils.isFirstRun
@@ -33,6 +34,7 @@ class GenericWeatherProvider: SmartspacerBroadcastProvider() {
 
         SmartspacerTargetProvider.notifyChange(context!!, GenericWeatherTarget::class.java)
         SmartspacerComplicationProvider.notifyChange(context!!, GenericWeatherComplication::class.java)
+        SmartspacerComplicationProvider.notifyChange(context!!, GenericSunTimesComplication::class.java)
     }
 
     override fun getConfig(smartspacerId: String): Config {
