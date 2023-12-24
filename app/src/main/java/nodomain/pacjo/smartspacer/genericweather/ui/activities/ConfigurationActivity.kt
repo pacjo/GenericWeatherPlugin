@@ -17,8 +17,6 @@ import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerComplicationProvi
 import com.kieronquinn.app.smartspacer.sdk.provider.SmartspacerTargetProvider
 import nodomain.pacjo.smartspacer.genericweather.R
 import nodomain.pacjo.smartspacer.genericweather.complications.GenericSunTimesComplication
-import nodomain.pacjo.smartspacer.genericweather.complications.GenericSunriseComplication
-import nodomain.pacjo.smartspacer.genericweather.complications.GenericSunsetComplication
 import nodomain.pacjo.smartspacer.genericweather.complications.GenericWeatherComplication
 import nodomain.pacjo.smartspacer.genericweather.targets.GenericWeatherTarget
 import nodomain.pacjo.smartspacer.genericweather.ui.theme.getColorScheme
