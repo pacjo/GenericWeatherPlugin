@@ -1,5 +1,6 @@
 package nodomain.pacjo.smartspacer.genericweather.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Icon
 import androidx.compose.foundation.clickable
@@ -247,7 +248,7 @@ fun PreferenceSlider(icon: Int, title: String, subtitle: String, stateCallback: 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsTopBar(title: String) {
+fun SettingsTopBar(context: Activity, title: String) {
     LargeTopAppBar(
         title = {
             Text(
@@ -256,14 +257,17 @@ fun SettingsTopBar(title: String) {
                 fontWeight = FontWeight.SemiBold
             )
         },
-//        navigationIcon = {
-//            IconButton(onClick = { /* TODO: add go back */ }) {
-//                Icon(
-//                    imageVector = Icons.Filled.ArrowBack,
-//                    contentDescription = "Back arrow"
-//                )
-//            }
-//        },
+        navigationIcon = {
+            IconButton(onClick = {
+                // https://stackoverflow.com/questions/67401294/jetpack-compose-close-application-by-button
+                context.finish()
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Back arrow"
+                )
+            }
+        },
         scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     )
 }

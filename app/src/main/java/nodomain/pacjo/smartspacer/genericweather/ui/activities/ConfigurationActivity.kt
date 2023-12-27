@@ -1,5 +1,6 @@
 package nodomain.pacjo.smartspacer.genericweather.ui.activities
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -61,7 +62,7 @@ class ConfigurationActivity : ComponentActivity() {
                         modifier = Modifier.verticalScroll(rememberScrollState())
 
                     ) {                        // TODO: check lazycolumn
-                        SettingsTopBar("Generic Weather")
+                        SettingsTopBar((context as? Activity)!!,"Generic Weather")
 
                         Divider()
                         Text("Weather target")
